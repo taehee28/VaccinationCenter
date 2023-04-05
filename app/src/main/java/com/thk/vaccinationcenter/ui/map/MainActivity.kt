@@ -1,7 +1,8 @@
-package com.thk.vaccinationcenter
+package com.thk.vaccinationcenter.ui.map
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.thk.vaccinationcenter.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
