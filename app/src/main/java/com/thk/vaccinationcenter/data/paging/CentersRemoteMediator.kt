@@ -47,7 +47,7 @@ class CentersRemoteMediator(
             logd(">> nextPage = $nextPage")
 
             val response: VaccinationCenterResponse = remoteApi.getCenters(pageIndex = nextPage)
-            logd(">> response = $response")
+            logd(">> response(size=${response.data.size} = $response")
 
             database.withTransaction {
                 database.centersDao().insertList(response.data)
