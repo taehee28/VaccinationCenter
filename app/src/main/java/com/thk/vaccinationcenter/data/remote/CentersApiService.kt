@@ -5,7 +5,7 @@ import com.thk.vaccinationcenter.models.VaccinationCenterResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface VaccinationApiService {
+interface CentersApiService {
     @GET("centers")
     suspend fun getCenters(
         @Query("serviceKey") apiKey: String = BuildConfig.API_KEY,
