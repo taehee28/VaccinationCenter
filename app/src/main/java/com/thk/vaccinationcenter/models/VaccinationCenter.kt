@@ -1,7 +1,12 @@
 package com.thk.vaccinationcenter.models
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.thk.vaccinationcenter.data.utils.DBInfo
+
+@Entity(tableName = DBInfo.TABLE_NAME)
 data class VaccinationCenter(
-    val id: Int,
+    @PrimaryKey val id: Int,
     val centerName: String,
     val sido: String,
     val sigungu: String,
