@@ -5,6 +5,7 @@ import com.thk.vaccinationcenter.data.local.VaccinationCenterDatabase
 import com.thk.vaccinationcenter.data.remote.CentersApiInterface
 import com.thk.vaccinationcenter.data.utils.RequestState
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
@@ -27,6 +28,8 @@ class CachingRepositoryImpl @Inject constructor(
 
             database.centersDao().insertList(response.data)
         }
+
+//        delay(3000)
 
         emit(RequestState.Success)
     }.catch { e ->
