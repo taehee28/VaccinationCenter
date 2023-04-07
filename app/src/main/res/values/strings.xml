@@ -9,4 +9,6 @@
     <string name="dialog_title_server_error">서버 통신 에러</string>
     <string name="dialog_message_server_error">서버 통신에 실패하였습니다.\n"확인"을 누르시면 앱을 종료합니다.</string>
     <string name="dialog_button_confirm">확인</string>
+
+    <string name="toast_map_auth_failed">오류가 발생했습니다.(%s)</string>
 </resources>
