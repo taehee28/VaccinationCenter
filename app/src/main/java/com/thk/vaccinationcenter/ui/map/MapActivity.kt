@@ -50,9 +50,7 @@ class MapActivity : AppCompatActivity() {
 
     private val locationCallback = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult) {
-            for (location in locationResult.locations) {
-                onLocationChanged(location)
-            }
+            locationResult.locations.forEach { onLocationChanged(it) }
         }
     }
 
@@ -65,23 +63,12 @@ class MapActivity : AppCompatActivity() {
         NaverMapSdk.getInstance(this).onAuthFailedListener =
             NaverMapSdk.OnAuthFailedListener { onAuthFailed(it) }
 
-
-        // 네이버 지도 객체 요청
-        (binding.map.getFragment<MapFragment>()).getMapAsync { map ->
-            naverMap = map.apply {
-                locationOverlay.isVisible = true
-            }
+        // 위치 정보 권한 확인하고 지도 설정
+        if (isPermissionGranted) {
+            initializeMap()
+        } else {
+            requestLocationPermission()
         }
-
-        // TODO: 퍼미션을 확인하고 각종 초기화 진행하도록 변경
-
-        // 마지막 위치가 있다면 표시
-        locationClient.lastLocation.addOnSuccessListener { location: Location? ->
-            location ?: return@addOnSuccessListener
-            onLocationChanged(location)
-        }
-
-        checkLocationPermission()
     }
 
     @SuppressLint("MissingPermission")
@@ -101,6 +88,9 @@ class MapActivity : AppCompatActivity() {
         locationClient.removeLocationUpdates(locationCallback)
     }
 
+    /**
+     * 네이버 지도 예외 처리
+     */
     private fun onAuthFailed(exception: AuthFailedException) {
         exception.printStackTrace()
 
@@ -108,43 +98,23 @@ class MapActivity : AppCompatActivity() {
         showToast(context = this, message = message)
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        logd(">> onRequestPermissionsResult")
-        // TODO: 거부 시 사용 불가하다는 안내 메시지 표시
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-    }
-
-    private fun checkLocationPermission() {
-
-        if (isPermissionGranted) return
-
-        if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
-            // 이전에 거부한 적이 있음
-            AlertDialog.Builder(this)
-                .setCancelable(false)
-                .setMessage(R.string.dialog_message_permission_information)
-                .setPositiveButton(R.string.dialog_button_confirm) { _, _ ->
-                    requestLocationPermission()
-                }
-        } else {
-            // 처음 요청
-            requestLocationPermission()
+    /**
+     * 지도 사용하기 위해 초기화 수행
+     */
+    @SuppressLint("MissingPermission")
+    private fun initializeMap() {
+        // 네이버 지도 객체 요청
+        (binding.map.getFragment<MapFragment>()).getMapAsync { map ->
+            naverMap = map.apply {
+                locationOverlay.isVisible = true
+            }
         }
 
-    }
-
-    private fun requestLocationPermission() {
-        requestPermissions(
-            arrayOf(
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ),
-            LOCATION_PERMISSION_REQUEST_CODE
-        )
+        // 마지막 위치가 있다면 표시
+        locationClient.lastLocation.addOnSuccessListener { location: Location? ->
+            location ?: return@addOnSuccessListener
+            onLocationChanged(location)
+        }
     }
 
     /**
@@ -163,8 +133,44 @@ class MapActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * 위치 정보 권한 요청
+     */
+    private fun requestLocationPermission() {
+        requestPermissions(
+            arrayOf(
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ),
+            LOCATION_PERMISSION_REQUEST_CODE
+        )
+    }
+
+    /**
+     * 권한 요청 결과 callback
+     */
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        when (requestCode) {
+            LOCATION_PERMISSION_REQUEST_CODE -> {
+                val result = grantResults.all { it == PackageManager.PERMISSION_GRANTED }
+                if (result) {
+                    initializeMap()
+                } else {
+                    showToast(this, R.string.toast_map_permission_denied)
+                }
+            }
+        }
+    }
+
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1000
+
         fun getIntent(context: Context) = Intent(context, MapActivity::class.java)
     }
 }

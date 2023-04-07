@@ -12,5 +12,6 @@
     <string name="dialog_button_confirm">확인</string>
 
     <string name="toast_map_auth_failed">오류가 발생했습니다.(%s)</string>
+    <string name="toast_map_permission_denied">위치 정보 권한이 필요합니다.\n[설정]에서 위치 정보 권한을 허용해주세요.</string>
 
 </resources>
