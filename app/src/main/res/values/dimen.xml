@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="size_map_my_location_btn">40dp</dimen>
+    <dimen name="size_map_my_location_btn">50dp</dimen>
 </resources>
