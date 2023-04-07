@@ -1,5 +1,6 @@
 package com.thk.vaccinationcenter.ui.splash
 
+import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -27,7 +28,7 @@ class SplashActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySplashBinding
     private val viewModel: SplashViewModel by viewModels()
 
-    private lateinit var progressBarAnimation: ProgressBarAnimation
+    private lateinit var animator: ObjectAnimator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,49 +38,41 @@ class SplashActivity : AppCompatActivity() {
         lifecycleScope.launch {
             viewModel.cacheCenterData()
                 .onStart {
-                    progressBarAnimation = ProgressBarAnimation(binding.loadingBar, 0f, 80f).apply { duration = 2000 }
-                    binding.loadingBar.startAnimation(progressBarAnimation)
-                }.collect { state ->
-                    logd(">> state = $state")
-                    if (state is RequestState.Success) {
-                        logd(">> startOffset = ${binding.loadingBar.animation.startOffset}")
-                        logd(">> compute = ${binding.loadingBar.animation.computeDurationHint()}")
-                        binding.loadingBar.animation.cancel()
+                    // 시작 시 ProgressBar 애니메이션 시작
+                    animator = ObjectAnimator.ofInt(
+                        binding.loadingBar,
+                        "progress",
+                        0,
+                        100
+                    ).apply {
+                        duration = 2000
+                        start()
 
-                        progressBarAnimation.to = 100f
-                        if (binding.loadingBar.animation == null) {
-                            progressBarAnimation.from = binding.loadingBar.progress.toFloat()
-                            progressBarAnimation.duration = 400
-                            binding.loadingBar.startAnimation(progressBarAnimation)
+                        // progress가 80%일 때 일시정지
+                        addUpdateListener { valueAnimator ->
+                            if (valueAnimator.animatedValue as Int >= 80) {
+                                pause()
+                            }
+                        }
+                    }
+                }.collect { state ->
+                    when (state) {
+                        RequestState.Success -> {
+                            // 1. 80%가 되기 전에 Success 도착 -> 80%에서 일시정지하는 Listener 제거
+                            // 2. 80%에서 멈춘 후 Success 도착 -> 애니메이션 재개
+                            animator.removeAllUpdateListeners()
+                            if (animator.isPaused) animator.resume()
+                        }
+                        RequestState.NetworkError -> {
+                            // 이전에 저장한 데이터가
+                            // 1. 있으면 -> 업데이트 필요 안내 다이얼로그 표시 후 Map으로 이동
+                            // 2. 없으면 -> 데이터 다운로드 필요 안내 다이얼로 표시 후 앱 종료
+                        }
+                        RequestState.ServerError -> {
+                            // 서버 통신 이슈 안내 다이얼로그 표시 후 앱 종료 
                         }
                     }
                 }
         }
-
-        /*ValueAnimator.ofFloat(0f, 100f).apply {
-            duration = 2000
-            start()
-
-            addUpdateListener { updatedAnimation ->
-                binding.loadingBar.progress = (updatedAnimation.animatedValue as Float).toInt()
-            }
-        }*/
-
-
-
-
-    }
-}
-
-class ProgressBarAnimation(
-    private val progressBar: ProgressBar,
-    var from: Float,
-    var to: Float
-) : Animation() {
-    override fun applyTransformation(interpolatedTime: Float, t: Transformation?) {
-        super.applyTransformation(interpolatedTime, t)
-
-        val value = from + (to - from) * interpolatedTime
-        progressBar.progress = value.toInt()
     }
 }

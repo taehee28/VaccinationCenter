@@ -29,7 +29,7 @@ class CachingRepositoryImpl @Inject constructor(
             database.centersDao().insertList(response.data)
         }
 
-//        delay(3000)
+        /*delay(3000)*/
 
         emit(RequestState.Success)
     }.catch { e ->
