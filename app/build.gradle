@@ -68,6 +68,9 @@ dependencies {
     implementation("com.google.dagger:hilt-android:$hilt_version")
     kapt("com.google.dagger:hilt-android-compiler:$hilt_version")
     kapt("androidx.hilt:hilt-compiler:1.0.0")
+
+    // 네이버 지도 SDK
+    implementation 'com.naver.maps:map-sdk:3.16.0'
 }
 
 kapt {
