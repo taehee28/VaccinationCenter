@@ -11,11 +11,12 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import retrofit2.HttpException
+import java.net.UnknownHostException
 import javax.inject.Inject
 
 interface CachingRepository {
     fun cacheCenterData(): Flow<RequestState>
-    fun isCachingCompleted(): Boolean
+    suspend fun isCachingCompleted(): Boolean
 }
 
 class CachingRepositoryImpl @Inject constructor(
@@ -48,8 +49,10 @@ class CachingRepositoryImpl @Inject constructor(
             } else if (e.code().toString().startsWith("5")) {
                 emit(RequestState.ServerError)
             }
+        } else if (e is UnknownHostException) {
+            emit(RequestState.NetworkError)
         }
     }.flowOn(Dispatchers.IO)
 
-    override fun isCachingCompleted(): Boolean = (database.centersDao().getDataCount() == 100)
+    override suspend fun isCachingCompleted(): Boolean = (database.centersDao().getDataCount() == 100)
 }

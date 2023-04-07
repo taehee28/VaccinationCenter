@@ -2,4 +2,11 @@
     <string name="app_name">VaccinationCenter</string>
 
     <string name="loading_text">데이터 로딩 중입니다.\n잠시만 기다려 주세요.</string>
+
+    <string name="dialog_title_network_error">네트워크 통신 에러</string>
+    <string name="dialog_message_network_error_need_update">신규 데이터를 조회하시려면 네트워크 연결이 필요합니다.</string>
+    <string name="dialog_message_network_error_no_data">데이터 로딩에 실패했습니다.\n"확인"을 누르시면 앱을 종료합니다.</string>
+    <string name="dialog_title_server_error">서버 통신 에러</string>
+    <string name="dialog_message_server_error">서버 통신에 실패하였습니다.\n"확인"을 누르시면 앱을 종료합니다.</string>
+    <string name="dialog_button_confirm">확인</string>
 </resources>

@@ -13,5 +13,5 @@ interface CentersDao {
     suspend fun insertList(centerList: List<VaccinationCenter>)
 
     @Query("SELECT COUNT(*) FROM ${DBInfo.TABLE_NAME}")
-    fun getDataCount(): Int
+    suspend fun getDataCount(): Int
 }
