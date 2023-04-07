@@ -7,6 +7,17 @@
     android:layout_height="match_parent"
     tools:context=".ui.splash.SplashActivity">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="@string/loading_text"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/loadingBar"
+        />
+
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/loadingBar"
         android:layout_width="300dp"
@@ -18,5 +29,23 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_loading_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        app:layout_constraintEnd_toStartOf="@id/tv_loading_suffix"
+        app:layout_constraintBaseline_toBaselineOf="@id/tv_loading_suffix"
+        />
+
+    <TextView
+        android:id="@+id/tv_loading_suffix"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="%"
+        app:layout_constraintEnd_toEndOf="@id/loadingBar"
+        app:layout_constraintTop_toBottomOf="@id/loadingBar"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

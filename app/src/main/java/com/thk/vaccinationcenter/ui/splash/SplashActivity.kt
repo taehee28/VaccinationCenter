@@ -2,6 +2,7 @@ package com.thk.vaccinationcenter.ui.splash
 
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
+import android.animation.ValueAnimator.AnimatorUpdateListener
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.animation.Animation
@@ -29,6 +30,12 @@ class SplashActivity : AppCompatActivity() {
     private val viewModel: SplashViewModel by viewModels()
 
     private lateinit var animator: ObjectAnimator
+    private val updateListener = AnimatorUpdateListener { valueAnimator ->
+        // progress가 80%일 때 일시정지
+        if (valueAnimator.animatedValue as Int >= 80) {
+            valueAnimator.pause()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,20 +55,21 @@ class SplashActivity : AppCompatActivity() {
                         duration = 2000
                         start()
 
-                        // progress가 80%일 때 일시정지
+                        addUpdateListener(updateListener)
                         addUpdateListener { valueAnimator ->
-                            if (valueAnimator.animatedValue as Int >= 80) {
-                                pause()
-                            }
+                            binding.tvLoadingValue.text = (valueAnimator.animatedValue as Int).toString()
                         }
                     }
                 }.collect { state ->
+                    logd(">> state = $state")
                     when (state) {
                         RequestState.Success -> {
                             // 1. 80%가 되기 전에 Success 도착 -> 80%에서 일시정지하는 Listener 제거
                             // 2. 80%에서 멈춘 후 Success 도착 -> 애니메이션 재개
-                            animator.removeAllUpdateListeners()
-                            if (animator.isPaused) animator.resume()
+                            with(animator) {
+                                removeUpdateListener(updateListener)
+                                if (isPaused) resume()
+                            }
                         }
                         RequestState.NetworkError -> {
                             // 이전에 저장한 데이터가
