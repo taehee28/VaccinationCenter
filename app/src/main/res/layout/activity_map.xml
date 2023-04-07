@@ -6,13 +6,28 @@
     android:layout_height="match_parent"
     tools:context=".ui.map.MapActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/map"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:name="com.naver.maps.map.MapFragment"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/btn_my_location"
+        android:layout_width="@dimen/size_map_my_location_btn"
+        android:layout_height="@dimen/size_map_my_location_btn"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/ic_my_location"
+        app:tint="@color/my_location_btn_color"
+        android:elevation="3dp"
+        android:background="@drawable/bg_map_my_location_btn"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
