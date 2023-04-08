@@ -18,8 +18,11 @@ import com.naver.maps.geometry.LatLng
 import com.naver.maps.geometry.LatLngBounds
 import com.naver.maps.map.*
 import com.naver.maps.map.NaverMapSdk.AuthFailedException
+import com.naver.maps.map.overlay.Marker
 import com.thk.vaccinationcenter.R
 import com.thk.vaccinationcenter.databinding.ActivityMapBinding
+import com.thk.vaccinationcenter.models.VaccinationCenter
+import com.thk.vaccinationcenter.utils.logd
 import com.thk.vaccinationcenter.utils.showToast
 import com.thk.vaccinationcenter.utils.toLatLng
 import dagger.hilt.android.AndroidEntryPoint
@@ -121,11 +124,31 @@ class MapActivity : AppCompatActivity() {
             locationClient.lastLocation.addOnSuccessListener { location: Location? ->
                 location ?: return@addOnSuccessListener
                 onLocationChanged(location = location, isCameraMoving = true)
+
+                // FIXME: 마커 표시 샘플
+                CenterMarker.create(
+                    VaccinationCenter(
+                        centerName = "예방접종센터",
+                        centerType = "지역",
+                        lat = location.latitude.toString(),
+                        lng = location.longitude.toString()
+                    )
+                ).apply {
+                    setOnClickListener { overlay ->
+                        val marker = overlay as Marker
+                        moveCamera(marker.position, CameraAnimation.Easing)
+
+                        true
+                    }
+
+                    this.map = naverMap
+
+                }
             }
 
             // 현재 위치 버튼
             binding.btnMyLocation.setOnClickListener {
-                currentLocation?.also { moveCamera(it) }
+                currentLocation?.also { moveCamera(it.toLatLng()) }
             }
         }
     }
@@ -142,15 +165,19 @@ class MapActivity : AppCompatActivity() {
         }
 
         if (isCameraMoving) {
-            moveCamera(location)
+            moveCamera(location.toLatLng())
         }
     }
 
     /**
      * 카메라 이동
      */
-    private fun moveCamera(location: Location) {
-        naverMap.moveCamera(CameraUpdate.scrollTo(location.toLatLng()))
+    private fun moveCamera(latLng: LatLng, animation: CameraAnimation = CameraAnimation.None) {
+        naverMap.moveCamera(
+            CameraUpdate
+                .scrollTo(latLng)
+                .animate(animation)
+        )
     }
 
     /**
