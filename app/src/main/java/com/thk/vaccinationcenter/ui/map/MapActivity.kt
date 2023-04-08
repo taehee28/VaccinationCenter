@@ -20,6 +20,7 @@ import com.naver.maps.geometry.LatLng
 import com.naver.maps.geometry.LatLngBounds
 import com.naver.maps.map.*
 import com.naver.maps.map.NaverMapSdk.AuthFailedException
+import com.naver.maps.map.overlay.InfoWindow
 import com.naver.maps.map.overlay.Marker
 import com.thk.vaccinationcenter.R
 import com.thk.vaccinationcenter.databinding.ActivityMapBinding
@@ -36,16 +37,12 @@ import javax.inject.Inject
 class MapActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMapBinding
-
     private val viewModel: MapViewModel by viewModels()
 
     private lateinit var naverMap: NaverMap
-
-    private val isPermissionGranted: Boolean
-        get() = (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) and
-                (checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)
-
+    @Inject lateinit var centerInfoView: InfoWindow
     @Inject lateinit var locationClient: FusedLocationProviderClient
+    private var currentLocation: Location? = null
 
     private val locationRequest = LocationRequest.Builder(
         Priority.PRIORITY_BALANCED_POWER_ACCURACY,
@@ -58,7 +55,11 @@ class MapActivity : AppCompatActivity() {
         }
     }
 
-    private var currentLocation: Location? = null
+    private val isPermissionGranted: Boolean
+        get() = (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) and
+                (checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -123,6 +124,8 @@ class MapActivity : AppCompatActivity() {
                     LatLng(31.43, 122.37),
                     LatLng(44.35, 132.0)
                 )
+
+                setOnMapClickListener { _, _ -> centerInfoView.close() }
             }
 
             // 마지막 위치가 있다면 표시
@@ -151,6 +154,12 @@ class MapActivity : AppCompatActivity() {
                     setOnClickListener { overlay ->
                         val marker = overlay as Marker
                         moveCamera(marker.position, CameraAnimation.Easing)
+
+                        if (marker.infoWindow == null) {
+                            centerInfoView.open(marker)
+                        } else {
+                            centerInfoView.close()
+                        }
 
                         true
                     }

@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="my_location_btn_color">#e20000</color>
+    <color name="info_icon_color">#3F51B5</color>
 </resources>
