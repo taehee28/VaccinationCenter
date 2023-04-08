@@ -9,6 +9,8 @@ import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Looper
+import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
@@ -26,12 +28,16 @@ import com.thk.vaccinationcenter.utils.logd
 import com.thk.vaccinationcenter.utils.showToast
 import com.thk.vaccinationcenter.utils.toLatLng
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class MapActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMapBinding
+
+    private val viewModel: MapViewModel by viewModels()
 
     private lateinit var naverMap: NaverMap
 
@@ -124,16 +130,24 @@ class MapActivity : AppCompatActivity() {
             locationClient.lastLocation.addOnSuccessListener { location: Location? ->
                 location ?: return@addOnSuccessListener
                 onLocationChanged(location = location, isCameraMoving = true)
+            }
 
-                // FIXME: 마커 표시 샘플
-                CenterMarker.create(
-                    VaccinationCenter(
-                        centerName = "예방접종센터",
-                        centerType = "지역",
-                        lat = location.latitude.toString(),
-                        lng = location.longitude.toString()
-                    )
-                ).apply {
+            // 현재 위치 버튼
+            binding.btnMyLocation.setOnClickListener {
+                currentLocation?.also { moveCamera(it.toLatLng()) }
+            }
+
+            addMarkerToMap()
+        }
+    }
+
+    /**
+     * DB에 저장된 데이터를 받아와 지도에 마커 표시
+     */
+    private fun addMarkerToMap() = lifecycleScope.launch {
+        viewModel.getCenterList().collectLatest { list: List<VaccinationCenter> ->
+            list.onEach { center ->
+                CenterMarker.create(centerInfo = center).apply {
                     setOnClickListener { overlay ->
                         val marker = overlay as Marker
                         moveCamera(marker.position, CameraAnimation.Easing)
@@ -141,14 +155,8 @@ class MapActivity : AppCompatActivity() {
                         true
                     }
 
-                    this.map = naverMap
-
+                    map = naverMap
                 }
-            }
-
-            // 현재 위치 버튼
-            binding.btnMyLocation.setOnClickListener {
-                currentLocation?.also { moveCamera(it.toLatLng()) }
             }
         }
     }
