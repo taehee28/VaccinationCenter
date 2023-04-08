@@ -50,7 +50,7 @@ class MapActivity : AppCompatActivity() {
 
     private val locationCallback = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult) {
-            locationResult.locations.forEach { onLocationChanged(it) }
+            locationResult.locations.forEach { onLocationChanged(location = it) }
         }
     }
 
@@ -113,7 +113,7 @@ class MapActivity : AppCompatActivity() {
             // 네이버 맵 객체가 초기화 된 후에 리스너 추가
             locationClient.lastLocation.addOnSuccessListener { location: Location? ->
                 location ?: return@addOnSuccessListener
-                onLocationChanged(location)
+                onLocationChanged(location = location, moveCamera = true)
             }
         }
     }
@@ -121,7 +121,7 @@ class MapActivity : AppCompatActivity() {
     /**
      * 현재 위치가 바뀔 때마다 현재 위치 아이콘의 위치와 카메라 이동을 설정
      */
-    private fun onLocationChanged(location: Location) {
+    private fun onLocationChanged(location: Location, moveCamera: Boolean = false) {
         naverMap.also {
             val coord = LatLng(location)
 
@@ -130,7 +130,9 @@ class MapActivity : AppCompatActivity() {
                 bearing = location.bearing
             }
 
-            it.moveCamera(CameraUpdate.scrollTo(coord))
+            if (moveCamera) {
+                it.moveCamera(CameraUpdate.scrollTo(coord))
+            }
         }
     }
 
