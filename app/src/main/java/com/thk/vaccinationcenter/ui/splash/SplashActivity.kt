@@ -47,29 +47,33 @@ class SplashActivity : AppCompatActivity() {
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        lifecycleScope.launch {
-            viewModel.cacheCenterData()
-                .onStart {
-                    // 시작 시 ProgressBar 애니메이션 시작
-                    animator = ObjectAnimator.ofInt(
-                        binding.loadingBar,
-                        "progress",
-                        0,
-                        100
-                    ).apply {
-                        duration = 2000
-                        start()
+        requestCacheData()
+    }
 
-                        addUpdateListener(updateListener)
-                        addUpdateListener { valueAnimator ->
-                            binding.tvLoadingValue.text = (valueAnimator.animatedValue as Int).toString()
-                        }
+    private fun requestCacheData() = lifecycleScope.launch {
+        viewModel.cacheCenterData()
+            .onStart {
+                // 시작 시 ProgressBar 애니메이션 시작
+                animator = ObjectAnimator.ofInt(
+                    binding.loadingBar,
+                    "progress",
+                    0,
+                    100
+                ).apply {
+                    duration = 2000
+                    start()
+
+                    // progressBar 애니메이션 멈추는 listener
+                    addUpdateListener(updateListener)
+                    // progressBar의 progress 값을 textView에 표시하는 listener
+                    addUpdateListener { valueAnimator ->
+                        binding.tvLoadingValue.text = (valueAnimator.animatedValue as Int).toString()
                     }
-                }.collect { state ->
-                    logd(">> state = $state")
-                    handleRequestState(state)
                 }
-        }
+            }.collect { state ->
+                logd(">> state = $state")
+                handleRequestState(state)
+            }
     }
 
     /**
