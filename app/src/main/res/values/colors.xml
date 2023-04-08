@@ -8,6 +8,10 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
+    <color name="navy_200">#9FA8DA</color>
+    <color name="navy_500">#3F51B5</color>
+    <color name="navy_700">#303F9F</color>
+
     <color name="my_location_btn_color">#FF2E2E</color>
     <color name="info_icon_color">#3F51B5</color>
     <color name="progress_bar_track_color">#D8D8D8</color>
