@@ -39,7 +39,7 @@ class MapActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMapBinding
     private val viewModel: MapViewModel by viewModels()
 
-    private lateinit var naverMap: NaverMap
+    private var naverMap: NaverMap? = null
     @Inject lateinit var centerInfoView: InfoWindow
     @Inject lateinit var locationClient: FusedLocationProviderClient
     private var currentLocation: Location? = null
@@ -148,7 +148,7 @@ class MapActivity : AppCompatActivity() {
      * DB에 저장된 데이터를 받아와 지도에 마커 표시
      */
     private fun addMarkerToMap() = lifecycleScope.launch {
-        viewModel.getCenterList().collectLatest { list: List<VaccinationCenter> ->
+        viewModel.centerList.collectLatest { list: List<VaccinationCenter> ->
             list.onEach { center ->
                 CenterMarker.create(centerInfo = center).apply {
                     setOnClickListener { overlay ->
@@ -176,7 +176,7 @@ class MapActivity : AppCompatActivity() {
     private fun onLocationChanged(location: Location, isCameraMoving: Boolean = false) {
         currentLocation = location
 
-        naverMap.locationOverlay.apply {
+        naverMap?.locationOverlay?.apply {
             position = location.toLatLng()
             bearing = location.bearing
         }
@@ -190,7 +190,7 @@ class MapActivity : AppCompatActivity() {
      * 카메라 이동
      */
     private fun moveCamera(latLng: LatLng, animation: CameraAnimation = CameraAnimation.None) {
-        naverMap.moveCamera(
+        naverMap?.moveCamera(
             CameraUpdate
                 .scrollTo(latLng)
                 .animate(animation)

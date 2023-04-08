@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.thk.vaccinationcenter.data.utils.DBInfo
 import com.thk.vaccinationcenter.models.VaccinationCenter
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CentersDao {
@@ -16,5 +17,5 @@ interface CentersDao {
     suspend fun getDataCount(): Int
 
     @Query("SELECT * FROM ${DBInfo.TABLE_NAME}")
-    suspend fun getCenterList(): List<VaccinationCenter>
+    fun getCenterList(): Flow<List<VaccinationCenter>>
 }
