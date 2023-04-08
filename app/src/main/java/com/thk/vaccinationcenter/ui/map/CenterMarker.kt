@@ -13,7 +13,13 @@ object CenterMarker {
         centerInfo: VaccinationCenter
     ): Marker = Marker().apply {
         position = LatLng(centerInfo.lat.toDouble(), centerInfo.lng.toDouble())
+
         captionText = centerInfo.centerName
+        captionRequestedWidth = 200
+
+        isHideCollidedCaptions = true
+        isHideCollidedSymbols = true
+
         icon = when (CenterType.fromString(centerInfo.centerType)) {
             CenterType.CENTRAL -> MarkerIcons.PINK
             CenterType.LOCAL -> MarkerIcons.LIGHTBLUE
