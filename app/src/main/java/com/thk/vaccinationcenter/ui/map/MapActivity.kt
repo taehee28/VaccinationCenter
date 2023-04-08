@@ -15,6 +15,7 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.Priority
 import com.naver.maps.geometry.LatLng
+import com.naver.maps.geometry.LatLngBounds
 import com.naver.maps.map.*
 import com.naver.maps.map.NaverMapSdk.AuthFailedException
 import com.thk.vaccinationcenter.R
@@ -102,7 +103,17 @@ class MapActivity : AppCompatActivity() {
         // 네이버 지도 객체 요청
         (binding.map.getFragment<MapFragment>()).getMapAsync { map ->
             naverMap = map.apply {
+                // 사용자 위치 오버레이 표시 설정
                 locationOverlay.isVisible = true
+
+                // 최소 줌 제한
+                minZoom = 5.0
+
+                // 한반도 인근으로 카메라 이동 제한
+                extent = LatLngBounds(
+                    LatLng(31.43, 122.37),
+                    LatLng(44.35, 132.0)
+                )
             }
 
             // 마지막 위치가 있다면 표시
@@ -136,7 +147,7 @@ class MapActivity : AppCompatActivity() {
     }
 
     /**
-     * 카메라 이동 
+     * 카메라 이동
      */
     private fun moveCamera(location: Location) {
         naverMap.moveCamera(CameraUpdate.scrollTo(location.toLatLng()))
