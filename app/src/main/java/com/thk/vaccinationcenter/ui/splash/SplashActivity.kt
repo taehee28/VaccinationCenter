@@ -72,6 +72,9 @@ class SplashActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * 데이터 캐싱 결과를 처리
+     */
     private suspend fun handleRequestState(state: RequestState) {
         when (state) {
             RequestState.Success -> {
@@ -120,15 +123,24 @@ class SplashActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * 공통으로 필요한 옵션을 설정한 AlertDialogBuiler를 리턴
+     */
     private fun getDialogBuilder() = AlertDialog
         .Builder(this@SplashActivity)
         .setCancelable(false)
 
+    /**
+     * [MapActivity]로 이동
+     */
     private fun moveToMap() {
         MapActivity.getIntent(this@SplashActivity).also { startActivity(it) }
         finish()
     }
 
+    /**
+     * 앱 종료
+     */
     private fun exitApp() {
         finishAffinity()
         System.runFinalization()

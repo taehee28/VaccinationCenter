@@ -8,6 +8,9 @@ import com.thk.vaccinationcenter.R
 import com.thk.vaccinationcenter.databinding.ViewCenterInfoBinding
 import com.thk.vaccinationcenter.models.VaccinationCenter
 
+/**
+ * 마커 선택 시 표시되는 정보안내창 View의 Adapter
+ */
 class CenterInfoViewAdapter(context: Context) : InfoWindow.DefaultViewAdapter(context) {
     override fun getContentView(infoWindow: InfoWindow): View {
         val binding = ViewCenterInfoBinding.inflate(LayoutInflater.from(context))

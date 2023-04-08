@@ -43,17 +43,20 @@ class MapActivity : AppCompatActivity() {
     @Inject lateinit var locationClient: FusedLocationProviderClient
     private var currentLocation: Location? = null
 
+    // 위치 변경 콜백 등록할 때 같이 넘겨주는 Request
     private val locationRequest = LocationRequest.Builder(
         Priority.PRIORITY_BALANCED_POWER_ACCURACY,
         1000
     ).build()
 
+    // 위치 변경 콜백
     private val locationCallback = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult) {
             locationResult.locations.forEach { onLocationChanged(location = it) }
         }
     }
 
+    // 퍼미션 확인용 프로퍼티
     private val isPermissionGranted: Boolean
         get() = (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) and
                 (checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)
@@ -85,6 +88,7 @@ class MapActivity : AppCompatActivity() {
     @SuppressLint("MissingPermission")
     override fun onResume() {
         super.onResume()
+        // 위치 변경 콜백 등록
         if (isPermissionGranted) {
             locationClient.requestLocationUpdates(
                 locationRequest,
@@ -96,12 +100,13 @@ class MapActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
+        // 위치 변경 콜백 해제
         locationClient.removeLocationUpdates(locationCallback)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-
+        // 마지막 카메라 위치 유지하도록 설정
         viewModel.keepLastCameraPosition = true
     }
 

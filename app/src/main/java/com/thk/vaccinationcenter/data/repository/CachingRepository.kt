@@ -16,7 +16,14 @@ import java.net.UnknownHostException
 import javax.inject.Inject
 
 interface CachingRepository {
+    /**
+     * 서버 API 호출하여 데이터 받아오고 DB에 저장
+     */
     fun cacheCenterData(): Flow<RequestState>
+
+    /**
+     * DB에 저장되어있는 데이터가 있는지 확인
+     */
     suspend fun isCachingCompleted(): Boolean
 }
 
@@ -30,8 +37,6 @@ class CachingRepositoryImpl @Inject constructor(
 
             database.insertList(response.data)
         }
-
-        /*delay(3000)*/
 
         emit(RequestState.Success)
     }.catch { e ->

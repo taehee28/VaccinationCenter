@@ -1,13 +1,13 @@
 package com.thk.vaccinationcenter.ui.map
 
-import android.graphics.Color
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.overlay.Marker
-import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.util.MarkerIcons
-import com.thk.vaccinationcenter.R
 import com.thk.vaccinationcenter.models.VaccinationCenter
 
+/**
+ * [VaccinationCenter]로 알맞은 [Marker] 인스턴스 만들어주는 object 클래스
+ */
 object CenterMarker {
     fun create(
         centerInfo: VaccinationCenter

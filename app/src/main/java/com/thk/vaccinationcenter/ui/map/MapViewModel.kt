@@ -20,5 +20,6 @@ class MapViewModel @Inject constructor(
             initialValue = emptyList()
         )
 
+    // 카메라의 마지막 위치를 유지해야 하는지 여부
     var keepLastCameraPosition: Boolean = false
 }
