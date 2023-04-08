@@ -9,24 +9,20 @@ import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Looper
-import androidx.appcompat.app.AlertDialog
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import androidx.core.content.PermissionChecker
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
-import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.*
 import com.naver.maps.map.NaverMapSdk.AuthFailedException
 import com.thk.vaccinationcenter.R
 import com.thk.vaccinationcenter.databinding.ActivityMapBinding
-import com.thk.vaccinationcenter.utils.logd
 import com.thk.vaccinationcenter.utils.showToast
+import com.thk.vaccinationcenter.utils.toLatLng
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MapActivity : AppCompatActivity() {
@@ -39,9 +35,7 @@ class MapActivity : AppCompatActivity() {
         get() = (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) and
                 (checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)
 
-    private val locationClient: FusedLocationProviderClient by lazy {
-        LocationServices.getFusedLocationProviderClient(this)
-    }
+    @Inject lateinit var locationClient: FusedLocationProviderClient
 
     private val locationRequest = LocationRequest.Builder(
         Priority.PRIORITY_BALANCED_POWER_ACCURACY,
@@ -53,6 +47,8 @@ class MapActivity : AppCompatActivity() {
             locationResult.locations.forEach { onLocationChanged(location = it) }
         }
     }
+
+    private var currentLocation: Location? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -113,7 +109,12 @@ class MapActivity : AppCompatActivity() {
             // 네이버 맵 객체가 초기화 된 후에 리스너 추가
             locationClient.lastLocation.addOnSuccessListener { location: Location? ->
                 location ?: return@addOnSuccessListener
-                onLocationChanged(location = location, moveCamera = true)
+                onLocationChanged(location = location, isCameraMoving = true)
+            }
+
+            // 현재 위치 버튼
+            binding.btnMyLocation.setOnClickListener {
+                currentLocation?.also { moveCamera(it) }
             }
         }
     }
@@ -121,19 +122,24 @@ class MapActivity : AppCompatActivity() {
     /**
      * 현재 위치가 바뀔 때마다 현재 위치 아이콘의 위치와 카메라 이동을 설정
      */
-    private fun onLocationChanged(location: Location, moveCamera: Boolean = false) {
-        naverMap.also {
-            val coord = LatLng(location)
+    private fun onLocationChanged(location: Location, isCameraMoving: Boolean = false) {
+        currentLocation = location
 
-            it.locationOverlay.apply {
-                position = coord
-                bearing = location.bearing
-            }
-
-            if (moveCamera) {
-                it.moveCamera(CameraUpdate.scrollTo(coord))
-            }
+        naverMap.locationOverlay.apply {
+            position = location.toLatLng()
+            bearing = location.bearing
         }
+
+        if (isCameraMoving) {
+            moveCamera(location)
+        }
+    }
+
+    /**
+     * 카메라 이동 
+     */
+    private fun moveCamera(location: Location) {
+        naverMap.moveCamera(CameraUpdate.scrollTo(location.toLatLng()))
     }
 
     /**
