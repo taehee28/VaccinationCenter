@@ -108,12 +108,13 @@ class MapActivity : AppCompatActivity() {
             naverMap = map.apply {
                 locationOverlay.isVisible = true
             }
-        }
 
-        // 마지막 위치가 있다면 표시
-        locationClient.lastLocation.addOnSuccessListener { location: Location? ->
-            location ?: return@addOnSuccessListener
-            onLocationChanged(location)
+            // 마지막 위치가 있다면 표시
+            // 네이버 맵 객체가 초기화 된 후에 리스너 추가
+            locationClient.lastLocation.addOnSuccessListener { location: Location? ->
+                location ?: return@addOnSuccessListener
+                onLocationChanged(location)
+            }
         }
     }
 

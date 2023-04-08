@@ -1,10 +1,16 @@
 package com.thk.vaccinationcenter.models
 
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.thk.vaccinationcenter.data.utils.DBInfo
 
-@Entity(tableName = DBInfo.TABLE_NAME)
+@Entity(
+    tableName = DBInfo.TABLE_NAME,
+    indices = [
+        Index(value = ["sido"])
+    ]
+)
 data class VaccinationCenter(
     @PrimaryKey val id: Int,
     val centerName: String,
