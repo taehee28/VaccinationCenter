@@ -17,7 +17,7 @@ class CenterInfoViewAdapter(context: Context) : InfoWindow.DefaultViewAdapter(co
             tvCenterName.text = centerInfo.centerName
             tvAddress.text = centerInfo.address
             tvFacilityName.text = centerInfo.facilityName
-            tvPhoneNumber.text = centerInfo.phoneNumber
+            tvPhoneNumber.text = centerInfo.phoneNumber.ifBlank { "-" }
             tvUpdatedAt.text = centerInfo.updatedAt
         }
 
