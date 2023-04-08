@@ -25,7 +25,6 @@ import com.naver.maps.map.overlay.Marker
 import com.thk.vaccinationcenter.R
 import com.thk.vaccinationcenter.databinding.ActivityMapBinding
 import com.thk.vaccinationcenter.models.VaccinationCenter
-import com.thk.vaccinationcenter.utils.logd
 import com.thk.vaccinationcenter.utils.showToast
 import com.thk.vaccinationcenter.utils.toLatLng
 import dagger.hilt.android.AndroidEntryPoint
@@ -70,6 +69,11 @@ class MapActivity : AppCompatActivity() {
         NaverMapSdk.getInstance(this).onAuthFailedListener =
             NaverMapSdk.OnAuthFailedListener { onAuthFailed(it) }
 
+        // 현재 위치 버튼
+        binding.btnMyLocation.setOnClickListener {
+            currentLocation?.also { moveCamera(it.toLatLng()) }
+        }
+
         // 위치 정보 권한 확인하고 지도 설정
         if (isPermissionGranted) {
             initializeMap()
@@ -93,6 +97,12 @@ class MapActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         locationClient.removeLocationUpdates(locationCallback)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+
+        viewModel.keepLastCameraPosition = true
     }
 
     /**
@@ -132,12 +142,10 @@ class MapActivity : AppCompatActivity() {
             // 네이버 맵 객체가 초기화 된 후에 리스너 추가
             locationClient.lastLocation.addOnSuccessListener { location: Location? ->
                 location ?: return@addOnSuccessListener
-                onLocationChanged(location = location, isCameraMoving = true)
-            }
-
-            // 현재 위치 버튼
-            binding.btnMyLocation.setOnClickListener {
-                currentLocation?.also { moveCamera(it.toLatLng()) }
+                onLocationChanged(
+                    location = location,
+                    isCameraMoving = viewModel.keepLastCameraPosition.not()
+                )
             }
 
             addMarkerToMap()

@@ -2,14 +2,11 @@ package com.thk.vaccinationcenter.ui.map
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.naver.maps.map.CameraPosition
 import com.thk.vaccinationcenter.data.repository.MapRepository
 import com.thk.vaccinationcenter.models.VaccinationCenter
-import com.thk.vaccinationcenter.utils.logd
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,4 +19,6 @@ class MapViewModel @Inject constructor(
             started = SharingStarted.WhileSubscribed(5000),
             initialValue = emptyList()
         )
+
+    var keepLastCameraPosition: Boolean = false
 }
