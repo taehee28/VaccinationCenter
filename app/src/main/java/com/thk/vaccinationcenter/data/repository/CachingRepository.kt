@@ -1,6 +1,7 @@
 
 package com.thk.vaccinationcenter.data.repository
 
+import com.thk.vaccinationcenter.data.local.CentersDao
 import com.thk.vaccinationcenter.data.local.VaccinationCenterDatabase
 import com.thk.vaccinationcenter.data.remote.CentersApiInterface
 import com.thk.vaccinationcenter.data.utils.RequestState
@@ -21,13 +22,13 @@ interface CachingRepository {
 
 class CachingRepositoryImpl @Inject constructor(
     private val remoteApi: CentersApiInterface,
-    private val database: VaccinationCenterDatabase
+    private val database: CentersDao
 ) : CachingRepository {
     override fun cacheCenterData(): Flow<RequestState> = flow<RequestState> {
         for (page in 1..10) {
             val response = remoteApi.getCenters(pageIndex = page)
 
-            database.centersDao().insertList(response.data)
+            database.insertList(response.data)
         }
 
         /*delay(3000)*/
@@ -54,5 +55,5 @@ class CachingRepositoryImpl @Inject constructor(
         }
     }.flowOn(Dispatchers.IO)
 
-    override suspend fun isCachingCompleted(): Boolean = (database.centersDao().getDataCount() == 100)
+    override suspend fun isCachingCompleted(): Boolean = (database.getDataCount() == 100)
 }
