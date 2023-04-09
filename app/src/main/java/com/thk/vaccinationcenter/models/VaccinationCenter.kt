@@ -5,12 +5,7 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.thk.vaccinationcenter.data.utils.DBInfo
 
-@Entity(
-    tableName = DBInfo.TABLE_NAME,
-    indices = [
-        Index(value = ["sido"])
-    ]
-)
+@Entity(tableName = DBInfo.TABLE_NAME)
 data class VaccinationCenter(
     @PrimaryKey val id: Int = 0,
     val centerName: String = "",
