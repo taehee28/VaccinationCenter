@@ -1,89 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:id="@+id/tv_centerName"
-        style="@style/InfoView.Text.Head"
+    <data>
+        <variable
+            name="centerInfo"
+            type="com.thk.vaccinationcenter.models.VaccinationCenter" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/iv_address_icon"
-        style="@style/InfoView.IconStyle"
-        android:layout_marginTop="8dp"
-        android:src="@drawable/ic_location"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_centerName" />
+        <TextView
+            android:id="@+id/tv_centerName"
+            style="@style/InfoView.Text.Head"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{centerInfo.centerName}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
 
-    <TextView
-        android:id="@+id/tv_address"
-        style="@style/InfoView.Text.Body"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        app:layout_constraintStart_toEndOf="@id/iv_address_icon"
-        app:layout_constraintTop_toTopOf="@id/iv_address_icon"
-        app:layout_constraintBottom_toBottomOf="@id/iv_address_icon"/>
+        <ImageView
+            android:id="@+id/iv_address_icon"
+            style="@style/InfoView.IconStyle"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/ic_location"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_centerName" />
 
-    <ImageView
-        android:id="@+id/tv_facility_icon"
-        style="@style/InfoView.IconStyle"
-        android:layout_marginTop="2dp"
-        android:src="@drawable/ic_facility"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_address_icon"/>
+        <TextView
+            android:id="@+id/tv_address"
+            style="@style/InfoView.Text.Body"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="@{centerInfo.address}"
+            app:layout_constraintStart_toEndOf="@id/iv_address_icon"
+            app:layout_constraintTop_toTopOf="@id/iv_address_icon"
+            app:layout_constraintBottom_toBottomOf="@id/iv_address_icon"/>
 
-    <TextView
-        android:id="@+id/tv_facilityName"
-        style="@style/InfoView.Text.Body"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        app:layout_constraintStart_toEndOf="@id/tv_facility_icon"
-        app:layout_constraintTop_toTopOf="@id/tv_facility_icon"
-        app:layout_constraintBottom_toBottomOf="@id/tv_facility_icon"
-        />
+        <ImageView
+            android:id="@+id/tv_facility_icon"
+            style="@style/InfoView.IconStyle"
+            android:layout_marginTop="2dp"
+            android:src="@drawable/ic_facility"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_address_icon"/>
 
-    <ImageView
-        android:id="@+id/iv_phone_icon"
-        style="@style/InfoView.IconStyle"
-        android:layout_marginTop="8dp"
-        android:src="@drawable/ic_phone"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_facilityName"/>
+        <TextView
+            android:id="@+id/tv_facilityName"
+            style="@style/InfoView.Text.Body"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="@{centerInfo.facilityName}"
+            app:layout_constraintStart_toEndOf="@id/tv_facility_icon"
+            app:layout_constraintTop_toTopOf="@id/tv_facility_icon"
+            app:layout_constraintBottom_toBottomOf="@id/tv_facility_icon"
+            />
 
-    <TextView
-        android:id="@+id/tv_phoneNumber"
-        style="@style/InfoView.Text.Body"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        app:layout_constraintStart_toEndOf="@id/iv_phone_icon"
-        app:layout_constraintTop_toTopOf="@id/iv_phone_icon"
-        app:layout_constraintBottom_toBottomOf="@id/iv_phone_icon"/>
+        <ImageView
+            android:id="@+id/iv_phone_icon"
+            style="@style/InfoView.IconStyle"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/ic_phone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_facilityName"/>
 
-    <TextView
-        android:id="@+id/tv_prefix_updatedAt"
-        style="@style/InfoView.Text.Caption"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/last_update"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_phone_icon"/>
+        <TextView
+            android:id="@+id/tv_phoneNumber"
+            style="@style/InfoView.Text.Body"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="@{centerInfo.phoneNumber}"
+            app:layout_constraintStart_toEndOf="@id/iv_phone_icon"
+            app:layout_constraintTop_toTopOf="@id/iv_phone_icon"
+            app:layout_constraintBottom_toBottomOf="@id/iv_phone_icon"/>
 
-    <TextView
-        android:id="@+id/tv_updatedAt"
-        style="@style/InfoView.Text.Caption"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/tv_prefix_updatedAt"
-        app:layout_constraintBaseline_toBaselineOf="@id/tv_prefix_updatedAt"/>
+        <TextView
+            android:id="@+id/tv_prefix_updatedAt"
+            style="@style/InfoView.Text.Caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/last_update"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_phone_icon"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/tv_updatedAt"
+            style="@style/InfoView.Text.Caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{centerInfo.updatedAt}"
+            app:layout_constraintStart_toEndOf="@id/tv_prefix_updatedAt"
+            app:layout_constraintBaseline_toBaselineOf="@id/tv_prefix_updatedAt"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
