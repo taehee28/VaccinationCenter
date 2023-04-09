@@ -8,7 +8,7 @@
 * XML, ViewBinding
 * Retrofit2, Room
 * Hilt
-* NaverMap
+* NaverMap, 공공데이터 API 
 
 ## issue
 * DataBinding로 View와 데이터를 bind하는 것이 되지 않는 이슈 존재
