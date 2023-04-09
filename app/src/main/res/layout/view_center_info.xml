@@ -6,52 +6,45 @@
 
     <TextView
         android:id="@+id/tv_centerName"
-        style="@style/TextAppearance.AppCompat.Body1"
+        style="@style/TextAppearance.InfoView.Head"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         />
 
     <ImageView
         android:id="@+id/iv_address_icon"
-        android:layout_width="@dimen/size_info_icon"
-        android:layout_height="@dimen/size_info_icon"
+        style="@style/InfoIcon"
         android:layout_marginTop="8dp"
-        app:tint="@color/info_icon_color"
         android:src="@drawable/ic_location"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_centerName" />
 
     <TextView
         android:id="@+id/tv_address"
-        style="@style/TextAppearance.AppCompat.Body1"
+        style="@style/TextAppearance.InfoView.Body"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:textSize="11sp"
         app:layout_constraintStart_toEndOf="@id/iv_address_icon"
         app:layout_constraintTop_toTopOf="@id/iv_address_icon"
         app:layout_constraintBottom_toBottomOf="@id/iv_address_icon"/>
 
     <ImageView
         android:id="@+id/tv_facility_icon"
-        android:layout_width="@dimen/size_info_icon"
-        android:layout_height="@dimen/size_info_icon"
+        style="@style/InfoIcon"
         android:layout_marginTop="2dp"
-        app:tint="@color/info_icon_color"
         android:src="@drawable/ic_facility"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/iv_address_icon"/>
 
     <TextView
         android:id="@+id/tv_facilityName"
-        style="@style/TextAppearance.AppCompat.Body1"
+        style="@style/TextAppearance.InfoView.Body"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:textSize="11sp"
         app:layout_constraintStart_toEndOf="@id/tv_facility_icon"
         app:layout_constraintTop_toTopOf="@id/tv_facility_icon"
         app:layout_constraintBottom_toBottomOf="@id/tv_facility_icon"
@@ -59,42 +52,37 @@
 
     <ImageView
         android:id="@+id/iv_phone_icon"
-        android:layout_width="@dimen/size_info_icon"
-        android:layout_height="@dimen/size_info_icon"
+        style="@style/InfoIcon"
         android:layout_marginTop="8dp"
-        app:tint="@color/info_icon_color"
         android:src="@drawable/ic_phone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_facilityName"/>
 
     <TextView
         android:id="@+id/tv_phoneNumber"
-        style="@style/TextAppearance.AppCompat.Body1"
+        style="@style/TextAppearance.InfoView.Body"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:textSize="11sp"
         app:layout_constraintStart_toEndOf="@id/iv_phone_icon"
         app:layout_constraintTop_toTopOf="@id/iv_phone_icon"
         app:layout_constraintBottom_toBottomOf="@id/iv_phone_icon"/>
 
     <TextView
         android:id="@+id/tv_prefix_updatedAt"
-        style="@style/TextAppearance.AppCompat.Caption"
+        style="@style/TextAppearance.InfoView.Caption"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:textSize="9sp"
         android:text="@string/last_update"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/iv_phone_icon"/>
 
     <TextView
         android:id="@+id/tv_updatedAt"
-        style="@style/TextAppearance.AppCompat.Caption"
+        style="@style/TextAppearance.InfoView.Caption"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="9sp"
         app:layout_constraintStart_toEndOf="@id/tv_prefix_updatedAt"
         app:layout_constraintBaseline_toBaselineOf="@id/tv_prefix_updatedAt"/>
 

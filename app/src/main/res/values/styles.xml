@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="InfoIcon">
+        <item name="android:layout_width">@dimen/size_info_icon</item>
+        <item name="android:layout_height">@dimen/size_info_icon</item>
+        <item name="tint">@color/info_icon_color</item>
+    </style>
+    <style name="TextAppearance.InfoView.Head" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textSize">12sp</item>
+    </style>
+    <style name="TextAppearance.InfoView.Body" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textSize">11sp</item>
+    </style>
+    <style name="TextAppearance.InfoView.Caption" parent="TextAppearance.AppCompat.Caption">
+        <item name="android:textSize">9sp</item>
+    </style>
+</resources>
