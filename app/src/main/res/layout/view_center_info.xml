@@ -22,8 +22,7 @@
         app:tint="@color/info_icon_color"
         android:src="@drawable/ic_location"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_centerName"
-        />
+        app:layout_constraintTop_toBottomOf="@id/tv_centerName" />
 
     <TextView
         android:id="@+id/tv_address"
@@ -86,7 +85,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:textSize="9sp"
-        android:text="마지막 업데이트: "
+        android:text="@string/last_update"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/iv_phone_icon"/>
 

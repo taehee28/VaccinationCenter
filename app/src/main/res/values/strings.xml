@@ -14,4 +14,5 @@
     <string name="toast_map_auth_failed">오류가 발생했습니다.(%s)</string>
     <string name="toast_map_permission_denied">위치 정보 권한이 필요합니다.\n[설정]에서 위치 정보 권한을 허용해주세요.</string>
 
+    <string name="last_update">마지막 업데이트: </string>
 </resources>
