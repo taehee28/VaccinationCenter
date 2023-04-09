@@ -42,19 +42,8 @@ class CachingRepositoryImpl @Inject constructor(
     }.catch { e ->
         e.printStackTrace()
 
-        // TODO: 정리 필요
         if (e is HttpException) {
-
-            /*
-            * 400번대 코드 -> 클라이언트 에러
-            * 500번대 코드 -> 서버 에러
-            * */
-
-            if (e.code().toString().startsWith("4")) {
-                emit(RequestState.NetworkError)
-            } else if (e.code().toString().startsWith("5")) {
-                emit(RequestState.ServerError)
-            }
+            emit(RequestState.errorOfCode(e.code()))
         } else if (e is UnknownHostException) {
             emit(RequestState.NetworkError)
         }
