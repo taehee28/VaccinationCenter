@@ -6,7 +6,7 @@
 
     <TextView
         android:id="@+id/tv_centerName"
-        style="@style/TextAppearance.InfoView.Head"
+        style="@style/InfoView.Text.Head"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
@@ -15,7 +15,7 @@
 
     <ImageView
         android:id="@+id/iv_address_icon"
-        style="@style/InfoIcon"
+        style="@style/InfoView.IconStyle"
         android:layout_marginTop="8dp"
         android:src="@drawable/ic_location"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,7 +23,7 @@
 
     <TextView
         android:id="@+id/tv_address"
-        style="@style/TextAppearance.InfoView.Body"
+        style="@style/InfoView.Text.Body"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
@@ -33,7 +33,7 @@
 
     <ImageView
         android:id="@+id/tv_facility_icon"
-        style="@style/InfoIcon"
+        style="@style/InfoView.IconStyle"
         android:layout_marginTop="2dp"
         android:src="@drawable/ic_facility"
         app:layout_constraintStart_toStartOf="parent"
@@ -41,7 +41,7 @@
 
     <TextView
         android:id="@+id/tv_facilityName"
-        style="@style/TextAppearance.InfoView.Body"
+        style="@style/InfoView.Text.Body"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
@@ -52,7 +52,7 @@
 
     <ImageView
         android:id="@+id/iv_phone_icon"
-        style="@style/InfoIcon"
+        style="@style/InfoView.IconStyle"
         android:layout_marginTop="8dp"
         android:src="@drawable/ic_phone"
         app:layout_constraintStart_toStartOf="parent"
@@ -60,7 +60,7 @@
 
     <TextView
         android:id="@+id/tv_phoneNumber"
-        style="@style/TextAppearance.InfoView.Body"
+        style="@style/InfoView.Text.Body"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
@@ -70,7 +70,7 @@
 
     <TextView
         android:id="@+id/tv_prefix_updatedAt"
-        style="@style/TextAppearance.InfoView.Caption"
+        style="@style/InfoView.Text.Caption"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -80,7 +80,7 @@
 
     <TextView
         android:id="@+id/tv_updatedAt"
-        style="@style/TextAppearance.InfoView.Caption"
+        style="@style/InfoView.Text.Caption"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toEndOf="@id/tv_prefix_updatedAt"

@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="InfoIcon">
+    <style name="InfoView"/>
+    <style name="InfoView.IconStyle" parent="InfoView">
         <item name="android:layout_width">@dimen/size_info_icon</item>
         <item name="android:layout_height">@dimen/size_info_icon</item>
         <item name="tint">@color/info_icon_color</item>
     </style>
-    <style name="TextAppearance.InfoView.Head" parent="TextAppearance.AppCompat.Body1">
+    <style name="InfoView.Text"/>
+    <style name="InfoView.Text.Head" parent="InfoView.Text">
+        <item name="android:textColor">@color/black</item>
         <item name="android:textSize">12sp</item>
     </style>
-    <style name="TextAppearance.InfoView.Body" parent="TextAppearance.AppCompat.Body1">
+    <style name="InfoView.Text.Body" parent="InfoView.Text">
+        <item name="android:textColor">@color/black</item>
         <item name="android:textSize">11sp</item>
     </style>
-    <style name="TextAppearance.InfoView.Caption" parent="TextAppearance.AppCompat.Caption">
+    <style name="InfoView.Text.Caption" parent="InfoView.Text">
+        <item name="android:textColor">#8F8F8F</item>
         <item name="android:textSize">9sp</item>
     </style>
 </resources>
