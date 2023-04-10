@@ -6,6 +6,10 @@ import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import com.thk.vaccinationcenter.data.utils.DBInfo
 
+/**
+ * 예방접종센터를 나타내는 데이터 모델.
+ * API 호출의 응답 및 DB의 Entity로도 쓰임.
+ */
 @Entity(tableName = DBInfo.TABLE_NAME)
 data class VaccinationCenter(
     @SerializedName("id")

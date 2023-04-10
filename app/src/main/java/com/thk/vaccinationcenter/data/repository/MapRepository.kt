@@ -8,6 +8,9 @@ import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 interface MapRepository {
+    /**
+     * DB에 저장되어있는 예방접종센터 데이터를 가져옴
+     */
     fun getCenterList(): Flow<List<VaccinationCenter>>
 }
 

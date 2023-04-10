@@ -50,6 +50,9 @@ class SplashActivity : AppCompatActivity() {
         requestCacheData()
     }
 
+    /**
+     * 데이터 캐싱 요청 
+     */
     private fun requestCacheData() = lifecycleScope.launch {
         viewModel.cacheCenterData()
             .onStart {

@@ -13,6 +13,7 @@ import javax.inject.Inject
 class MapViewModel @Inject constructor(
     private val repository: MapRepository
 ) : ViewModel() {
+    // 예방접종센터 리스트
     val centerList: StateFlow<List<VaccinationCenter>> =
         repository.getCenterList().stateIn(
             scope = viewModelScope,

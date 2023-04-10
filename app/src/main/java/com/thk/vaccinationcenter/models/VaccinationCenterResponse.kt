@@ -2,6 +2,9 @@ package com.thk.vaccinationcenter.models
 
 import com.google.gson.annotations.SerializedName
 
+/**
+ * API 호출의 응답으로 사용하는 데이터 모델
+ */
 data class VaccinationCenterResponse(
     @SerializedName("page")
     val page: Int = 0,
